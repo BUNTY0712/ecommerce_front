@@ -6,19 +6,17 @@ import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { getcategoryproducts } from '../utils/helper';
 import { useDispatch } from 'react-redux';
+import { setLoading, setTittle } from '../../Reducers/UiReducer';
 
 const Category = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [tittle, setTitle] = useState("");
+  
 
   const handleSubmit = async (tittle) => {
-    try {
-      console.log("Fetching products...");
-      await getcategoryproducts(dispatch, navigation, tittle);
-    } catch (error) {
-      console.error("Error in fetching products:", error);
-    }
+    dispatch(setTittle(tittle));
+     navigation.navigate("ProductScreens");
+    
   };
 
   return (

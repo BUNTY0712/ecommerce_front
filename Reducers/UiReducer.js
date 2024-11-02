@@ -15,6 +15,8 @@ const UiReducer = createSlice({
     singledata: null,
     cartitems: null,
     bill: null,
+    tittle: null,
+    loading: false,
     emailData: {
       name: null,
       email: null,
@@ -24,6 +26,9 @@ const UiReducer = createSlice({
   reducers: {
     setId(state, action) {
       state.id = action.payload;
+    },
+    setTittle(state, action) {
+      state.tittle = action.payload;
     },
     setEmailData(state, action) {
       state.emailData = action.payload;
@@ -62,6 +67,9 @@ const UiReducer = createSlice({
     setReceiverId(state, action) {
       state.receiverId = action.payload;
     },
+    setLoading(state, action) {
+      state.loading = action.payload;
+    },
   },
 });
 
@@ -80,5 +88,7 @@ export const {
   setCartItems,
   setBill,
   setEmailData,
+  setLoading,
+  setTittle,
 } = actions;
 export default reducer;

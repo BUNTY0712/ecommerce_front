@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity} from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity,ActivityIndicator} from 'react-native'
+import React, { useEffect, useState } from 'react'
 import product1 from "../../Page/assets/product1.png"
-import { getImgUrl, getRating } from '../utils/helper';
+import { getcategoryproducts, getImgUrl, getRating } from '../utils/helper';
 import { ProductData } from '../data/ProductData';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from '../ReusableComponent/Header';
@@ -12,12 +12,31 @@ import { setSingleData } from '../../Reducers/UiReducer';
 
 
 const ProductScreens = () => {
-  const { categoryproduct } = useSelector((state) => state.ui)
+  const { categoryproduct,tittle } = useSelector((state) => state.ui)
   const navigation = useNavigation()
   const dispatch = useDispatch()
+  const [ loading, setLoadding] = useState(false)
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoadding(true);
+      try {
+        console.log("Fetching products...");
+        await getcategoryproducts(dispatch, navigation, tittle);
+      } catch (error) {
+        console.error("Error in fetching products:", error);
+      } finally {
+        setLoadding(false);
+      }
+    };
+
+    fetchProducts();
+  }, [tittle]); // Add 'title' to the dependency array
   return (
     <>
-    <Header/>
+      <Header />
+      {loading ? (
+         <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />
+      ) : (  
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Results</Text>
       <Text>Price and other details may vary based on product size and color.</Text>
@@ -67,6 +86,7 @@ const ProductScreens = () => {
                         </View>
       )}
       </ScrollView>
+       )} 
       <Footer/>
     </>
   )
@@ -164,7 +184,10 @@ const styles = StyleSheet.create({
   },
   emoji: {
      marginLeft: 25
-   }
+  },
+  loader: {
+    margin: 20
+  }
 })
 
 export default ProductScreens

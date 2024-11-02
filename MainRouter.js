@@ -27,7 +27,7 @@ const MainRouter = () => {
             headerShown: false,
           })}
         >
-          <Stack.Screen name="EmailSender" component={EmailSender} />
+          {/* <Stack.Screen name="EmailSender" component={EmailSender} /> */}
 
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="OrderSummery" component={OrderSummery} />
